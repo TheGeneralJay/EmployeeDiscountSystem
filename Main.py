@@ -47,7 +47,7 @@ def show_menu():
             case 3:  # Make Purchase
                 make_purchase()
             case 4:  # All Employee Summary
-                all_employee_summary(employee_list)
+                all_employee_summary()
             case 5:  # Exit
                 print("|   Thank you for using Your GBC Employee Discount Tool!   |")
                 print("|                  Have a fantastic day!                   |")
@@ -435,8 +435,14 @@ def make_purchase():
 
 
 # --------------------------------------------------------------------------------------------------------
-def all_employee_summary(emp_list):
-    print(employee_list)
+def all_employee_summary():
+    menu_line()
+    print("|                     EMPLOYEE SUMMARY                     |")
+    menu_line()
+
+    for employee in employee_list:
+        print(str(employee[0]) + " | " + employee[1] + " | " + employee[2] + " | " + str(employee[3]) + " | $" + str(employee[4]) + " | $" + str(employee[5]) + " | " + str(employee[6]))
+        menu_line()
 
 
 # --------------------------------------------------------------------------------------------------------
