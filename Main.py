@@ -2,12 +2,14 @@
 # Fix the loop for entering an invalid input after adding new item and being prompted to create another/go back to menu.
 # Placeholder data so the program does not feel empty upon first use.
 employee_list = [
-    [1, "Amanda Gurney", "hourly", 1, 0, 0, 1]
+    [1, "Amanda Gurney", "hourly", 5, 0, 0, 1],
+    [2, "Sam Relius", "manager", 5, 0, 0, 2]
 ]
 
 item_list = [
     [1, "Call of Duty: Black Ops", 20],
-    [2, "FFXIV: Endwalker", 60]
+    [2, "FFXIV: Endwalker", 60],
+    [3, "Laptop", 1500]
 ]
 
 
@@ -316,20 +318,187 @@ def create_item():
 
 # --------------------------------------------------------------------------------------------------------
 def make_purchase():
-    menu_line()
-    print("|                      MAKE PURCHASE                       |")
-    menu_line()
-    print(f"{'| Item Number':<24} {'Item Name':<23} {'Item Cost |'}")
-    menu_line()
-
-    for item in item_list:
-        print(f"{'| ' + str(item[0]):<18} {item[1]:<29} {str(item[2]):<9} |")
+    is_valid = False
+    while not is_valid:
         menu_line()
+        print("|                      MAKE PURCHASE                       |")
+        menu_line()
+        print(f"{'| Item Number':<24} {'Item Name':<23} {'Item Cost |'}")
+        menu_line()
+
+        for item in item_list:
+            print(f"{'| ' + str(item[0]):<18} {item[1]:<29} {str(item[2]):<9} |")
+            menu_line()
+
+        is_valid_input = False
+        while not is_valid_input:
+            entered_discount_number = input("Employee Discount Number: ")
+
+            # Ensure discount number is numeric for check.
+            if int(entered_discount_number.isnumeric()):
+                entered_discount_number = int(entered_discount_number)
+            # If discount number exists...
+            if does_employee_exist(entered_discount_number):
+                # Place employee into variable.
+                given_employee = get_employee(entered_discount_number)
+
+                # Input item number.
+                entered_item_number = input("Item Number: ")
+
+                # Ensure item number is numeric for check.
+                if int(entered_item_number.isnumeric()):
+                    entered_item_number = int(entered_item_number)
+
+                # If item number exists...
+                if does_item_exist(entered_item_number):
+                    # Place item into variable for easy access.
+                    given_item = get_item(entered_item_number)
+
+                    # Place discount in variable.
+                    discount_amount = calculate_discount(given_employee)
+                    discount_cost = calculate_discounted_cost(discount_amount, given_item[2])
+
+                    # Maximum discount is $200.
+                    if given_item[2] - discount_cost > 200:
+                        discount_difference = 200
+                    else:
+                        discount_difference = given_item[2] - discount_cost
+
+                    print("|                      Order Summary                       |")
+                    menu_line()
+                    print("Employee Name: " + given_employee[1])
+                    print("Item Name: " + given_item[1])
+                    print("Discount Amount: " + str((discount_amount * 100)) + "%")
+                    print("Discounted Cost: $" + "%0.2f" % discount_cost)
+                    print("Amount Saved: $" + "%0.2f" % discount_difference)
+
+                    is_valid_input = True
+                else:
+                    print("Item does not exist.")
+            else:
+                print("Employee does not exist.")
+
+        is_valid_input = False
+        while not is_valid_input:
+
+            menu_line()
+            print("|                    Confirm Purchase                     |")
+            menu_line()
+            print("|                    1. Purchase Item.                    |")
+            print("|                    2. Cancel                            |")
+            menu_line()
+            user_input = input("Confirm Purchase?: ")
+
+            if user_input == "1":
+                # Add one to total purchased.
+                given_employee[4] += discount_cost
+                # Add one to total discounts.
+                given_employee[5] += discount_difference
+
+                is_valid_input = True
+                is_valid = True
+            elif user_input == "2":
+                menu_line()
+                print("|                  Item purchase cancelled.                |")
+                menu_line()
+                is_valid_input = True
+
+            else:
+                print("Invalid input.")
+
+        is_valid_input = False
+        while not is_valid_input:
+            print("|                  Purchase Different Item?                |")
+            menu_line()
+            print("|                 1. Purchase Different Item.              |")
+            print("|                 2. Exit to Menu.                         |")
+            menu_line()
+
+            user_input = input("Purchase a Different Item?: ")
+            if user_input == "1":
+                menu_line()
+                print("|      Press Enter to return to the item purchase menu.    |")
+                menu_line()
+                input()
+
+                is_valid_input = True
+            elif user_input == "2":
+                menu_line()
+                print("|          Press Enter to return to the main menu.         |")
+                menu_line()
+                input()
+
+                is_valid_input = True
+                is_valid = True
+            else:
+                print("Invalid input")
 
 
 # --------------------------------------------------------------------------------------------------------
 def all_employee_summary(emp_list):
     print(employee_list)
+
+
+# --------------------------------------------------------------------------------------------------------
+def does_employee_exist(emp_disc_number):
+
+    # Returns true if emp discount number exists within the employee_list.
+    # Returns false if it does not.
+    for employee in employee_list:
+        if emp_disc_number == employee[6]:
+            return True
+    return False
+
+
+# --------------------------------------------------------------------------------------------------------
+def get_employee(emp_disc_number):
+    for employee in employee_list:
+        if emp_disc_number == employee[6]:
+            return employee
+
+
+# --------------------------------------------------------------------------------------------------------
+def get_item(item_number):
+    for item in item_list:
+        if item_number == item[0]:
+            return item
+
+
+# --------------------------------------------------------------------------------------------------------
+def does_item_exist(item_number):
+    # Returns true if item number exists within the item_list.
+    # Returns false if it does not.
+    for item in item_list:
+        if item_number == item[0]:
+            return True
+    return False
+
+
+# --------------------------------------------------------------------------------------------------------
+def calculate_discount(employee):
+    if employee[3] >= 5:
+        discount = 0.10
+    elif employee[3] == 4:
+        discount = 0.08
+    elif employee[3] == 3:
+        discount = 0.06
+    elif employee[3] == 2:
+        discount = 0.04
+    elif employee[3] == 1:
+        discount = 0.02
+    else:
+        discount = 0
+
+    if employee[2] == "manager":
+        discount += 0.10
+
+    return discount
+
+
+# --------------------------------------------------------------------------------------------------------
+def calculate_discounted_cost(discount, cost):
+    discounted_cost = cost - (cost * discount)
+    return discounted_cost
 
 
 # --------------------------------------------------------------------------------------------------------
