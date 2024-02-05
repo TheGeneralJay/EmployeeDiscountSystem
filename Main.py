@@ -1,5 +1,7 @@
 # TO DO:
 # Fix the loop for entering an invalid input after adding new item and being prompted to create another/go back to menu.
+# ^^^ this causes duplicate items to be created.
+
 # Placeholder data so the program does not feel empty upon first use.
 employee_list = [
     [1, "Amanda Gurney", "hourly", 5, 0, 0, 1],
@@ -105,34 +107,43 @@ def create_employee():
             user_input = input("Is this information correct?: ")
 
             if user_input == "1":
+                is_valid_input = True
                 employee = employee_list.append(
                     [int(employee_id), employee_name, employee_type, int(employee_years_worked), 0, 0,
                      int(employee_discount_number)]
                 )
-                menu_line()
-                print("|               Employee added to the system.              |")
-                menu_line()
-                print("|                  (1) Create New Employee.                |")
-                print("|                  (2) Return to Menu.                     |")
-                menu_line()
-                user_input = input("What would you like to do?: ")
 
-                if user_input == "1":
+                create_new_loop = False
+                while not create_new_loop:
                     menu_line()
-                    print("|            Press Enter to create a new employee.         |")
+                    print("|               Employee added to the system.              |")
                     menu_line()
-                    input()
-                elif user_input == "2":
+                    print("|                  (1) Create New Employee.                |")
+                    print("|                  (2) Return to Menu.                     |")
                     menu_line()
-                    print("|          Press Enter to return to the main menu.         |")
-                    menu_line()
+                    continue_input = input("What would you like to do?: ")
 
-                    input()
-                    return employee
-                else:
-                    print("Invalid input.")
+                    if continue_input == "1":
+                        menu_line()
+                        print("|            Press Enter to create a new employee.         |")
+                        menu_line()
+                        input()
+                        create_new_loop = True
 
-                is_valid_input = True
+                    elif continue_input == "2":
+                        menu_line()
+                        print("|          Press Enter to return to the main menu.         |")
+                        menu_line()
+
+                        input()
+                        return employee
+                    else:
+                        menu_line()
+                        print("|                      Invalid input.                      |")
+                        menu_line()
+                        print("|                 Press Enter to Try Again                 |")
+                        menu_line()
+                        input()
 
             elif user_input == "2":
                 menu_line()
@@ -144,7 +155,12 @@ def create_employee():
                 is_valid_input = True
                 is_valid = True
             else:
-                print("Invalid input.")
+                menu_line()
+                print("|                      Invalid input.                      |")
+                menu_line()
+                print("|                 Press Enter to Try Again                 |")
+                menu_line()
+                input()
 
 
 # --------------------------------------------------------------------------------------------------------
@@ -280,28 +296,39 @@ def create_item():
                 item = item_list.append(
                     [int(item_number), item_name, int(item_cost)]
                 )
-                menu_line()
-                print("|                 Item added to the system.                |")
-                menu_line()
-                print("|                  (1) Create New Item.                    |")
-                print("|                  (2) Return to Menu.                     |")
-                menu_line()
-                user_input = input("What would you like to do?: ")
 
-                if user_input == "1":
+                create_new_loop = False
+                while not create_new_loop:
                     menu_line()
-                    print("|              Press Enter to create a new item.           |")
+                    print("|                 Item added to the system.                |")
                     menu_line()
-                    input()
-                elif user_input == "2":
+                    print("|                  (1) Create New Item.                    |")
+                    print("|                  (2) Return to Menu.                     |")
                     menu_line()
-                    print("|          Press Enter to return to the main menu.         |")
-                    menu_line()
+                    continue_input = input("What would you like to do?: ")
 
-                    input()
-                    return item
-                else:
-                    print("Invalid input.")
+                    if continue_input == "1":
+                        menu_line()
+                        print("|              Press Enter to create a new item.           |")
+                        menu_line()
+                        input()
+                        create_new_loop = True
+
+                    elif continue_input == "2":
+                        menu_line()
+                        print("|          Press Enter to return to the main menu.         |")
+                        menu_line()
+
+                        input()
+                        return item
+
+                    else:
+                        menu_line()
+                        print("|                      Invalid input.                      |")
+                        menu_line()
+                        print("|                 Press Enter to Try Again                 |")
+                        menu_line()
+                        input()
 
             elif user_input == "2":
                 menu_line()
@@ -313,7 +340,12 @@ def create_item():
                 is_valid_input = True
                 is_valid = True
             else:
-                print("Invalid input.")
+                menu_line()
+                print("|                      Invalid input.                      |")
+                menu_line()
+                print("|                 Press Enter to Try Again                 |")
+                menu_line()
+                input()
 
 
 # --------------------------------------------------------------------------------------------------------
