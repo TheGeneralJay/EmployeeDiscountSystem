@@ -1,7 +1,3 @@
-# TO DO:
-# Fix the loop for entering an invalid input after adding new item and being prompted to create another/go back to menu.
-# ^^^ this causes duplicate items to be created.
-
 # Placeholder data so the program does not feel empty upon first use.
 employee_list = [
     [1, "Amanda Gurney", "hourly", 5, 0, 0, 1],
@@ -73,22 +69,42 @@ def create_employee():
         # Employee ID validation.
         employee_id = create_validation("Employee ID: ", "id")
         if employee_id == "no":  # Exit if the user entered 'no'.
+            menu_line()
+            print("|          Press Enter to return to the main menu.         |")
+            menu_line()
+            input()
             return False
 
         employee_name = create_validation("Employee Name: ", "name")
         if employee_name == "no":  # Exit if the user entered 'no'.
+            menu_line()
+            print("|          Press Enter to return to the main menu.         |")
+            menu_line()
+            input()
             return False
 
         employee_type = create_validation("Employee Type (hourly or manager): ", "type").lower()
         if employee_type == "no":  # Exit if the user entered 'no'.
+            menu_line()
+            print("|          Press Enter to return to the main menu.         |")
+            menu_line()
+            input()
             return False
 
         employee_years_worked = create_validation("Employee Years Worked: ", "year")
         if employee_years_worked == "no":  # Exit if the user entered 'no'.
+            menu_line()
+            print("|          Press Enter to return to the main menu.         |")
+            menu_line()
+            input()
             return False
 
         employee_discount_number = create_validation("Employee Discount Number: ", "discount")
         if employee_discount_number == "no":  # Exit if the user entered 'no'.
+            menu_line()
+            print("|          Press Enter to return to the main menu.         |")
+            menu_line()
+            input()
             return False
 
         is_valid_input = False
@@ -165,11 +181,6 @@ def create_employee():
 
 # --------------------------------------------------------------------------------------------------------
 def validate_input(user_input, validation_type):
-    # Checks if input is blank.
-    if user_input == "" or user_input is None:
-        print("Please enter a valid input.")
-        return False
-
     # Error messages dependent on validation_type for ease-of-access.
     match validation_type:
         # Validates any numerical inputs.
@@ -246,7 +257,7 @@ def create_validation(input_message, validation_type):
         menu_line()
 
         if user_input.lower() == "no":
-            print("Exiting to main menu.")
+            print("                    Exiting to main menu.                ")
             user_input = "no"
             return user_input
 
@@ -269,14 +280,26 @@ def create_item():
         # Item Number
         item_number = create_validation("Item Number: ", "item_num")
         if item_number == "no":  # Exit if the user entered 'no'.
+            menu_line()
+            print("|          Press Enter to return to the main menu.         |")
+            menu_line()
+            input()
             return False
 
         item_name = create_validation("Item Name: ", "item_name")
         if item_name == "no":  # Exit if the user entered 'no'.
+            menu_line()
+            print("|          Press Enter to return to the main menu.         |")
+            menu_line()
+            input()
             return False
 
         item_cost = create_validation("Item Cost: ", "cost")
         if item_cost == "no":  # Exit if the user entered 'no'.
+            menu_line()
+            print("|          Press Enter to return to the main menu.         |")
+            menu_line()
+            input()
             return False
 
         is_valid_input = False
@@ -359,12 +382,18 @@ def make_purchase():
         menu_line()
 
         for item in item_list:
-            print(f"{'| ' + str(item[0]):<18} {item[1]:<29} {str(item[2]):<9} |")
+            print(f"{'| ' + str(item[0]):<18} {item[1]:<29} ${str(item[2]):<8} |")
             menu_line()
 
         is_valid_input = False
         while not is_valid_input:
             entered_discount_number = input("Employee Discount Number: ")
+            if entered_discount_number == "no":
+                menu_line()
+                print("|          Press Enter to return to the main menu.         |")
+                menu_line()
+                input()
+                return False
 
             # Ensure discount number is numeric for check.
             if int(entered_discount_number.isnumeric()):
@@ -376,6 +405,13 @@ def make_purchase():
 
                 # Input item number.
                 entered_item_number = input("Item Number: ")
+
+                if entered_item_number == "no":
+                    menu_line()
+                    print("|          Press Enter to return to the main menu.         |")
+                    menu_line()
+                    input()
+                    return False
 
                 # Ensure item number is numeric for check.
                 if int(entered_item_number.isnumeric()):
@@ -396,6 +432,7 @@ def make_purchase():
                     else:
                         discount_difference = given_item[2] - discount_cost
 
+                    menu_line()
                     print("|                      Order Summary                       |")
                     menu_line()
                     print("Employee Name: " + given_employee[1])
@@ -414,10 +451,10 @@ def make_purchase():
         while not is_valid_input:
 
             menu_line()
-            print("|                    Confirm Purchase                     |")
+            print("|                    Confirm Purchase                      |")
             menu_line()
-            print("|                    1. Purchase Item.                    |")
-            print("|                    2. Cancel                            |")
+            print("|                    1. Purchase Item.                     |")
+            print("|                    2. Cancel                             |")
             menu_line()
             user_input = input("Confirm Purchase?: ")
 
@@ -427,8 +464,6 @@ def make_purchase():
                 # Add one to total discounts.
                 given_employee[5] += discount_difference
 
-                is_valid_input = True
-                is_valid = True
             elif user_input == "2":
                 menu_line()
                 print("|                  Item purchase cancelled.                |")
@@ -438,32 +473,35 @@ def make_purchase():
             else:
                 print("Invalid input.")
 
-        is_valid_input = False
-        while not is_valid_input:
-            print("|                  Purchase Different Item?                |")
-            menu_line()
-            print("|                 1. Purchase Different Item.              |")
-            print("|                 2. Exit to Menu.                         |")
-            menu_line()
+            purchase_new_loop = False
+            while not purchase_new_loop:
+                menu_line()
+                print("|                  Purchase Different Item?                |")
+                menu_line()
+                print("|                 1. Purchase Different Item.              |")
+                print("|                 2. Exit to Menu.                         |")
+                menu_line()
+                continue_input = input("Purchase a Different Item?: ")
 
-            user_input = input("Purchase a Different Item?: ")
-            if user_input == "1":
-                menu_line()
-                print("|      Press Enter to return to the item purchase menu.    |")
-                menu_line()
-                input()
+                if continue_input == "1":
+                    menu_line()
+                    print("|      Press Enter to return to the item purchase menu.    |")
+                    menu_line()
+                    input()
 
-                is_valid_input = True
-            elif user_input == "2":
-                menu_line()
-                print("|          Press Enter to return to the main menu.         |")
-                menu_line()
-                input()
+                    is_valid_input = True
+                    purchase_new_loop = True
+                elif continue_input == "2":
+                    menu_line()
+                    print("|          Press Enter to return to the main menu.         |")
+                    menu_line()
+                    input()
 
-                is_valid_input = True
-                is_valid = True
-            else:
-                print("Invalid input")
+                    is_valid_input = True
+                    purchase_new_loop = True
+                    is_valid = True
+                else:
+                    print("Invalid input")
 
 
 # --------------------------------------------------------------------------------------------------------
