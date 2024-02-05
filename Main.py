@@ -514,6 +514,11 @@ def all_employee_summary():
         print(str(employee[0]) + " | " + employee[1] + " | " + employee[2] + " | " + str(employee[3]) + " | $" + str(employee[4]) + " | $" + str(employee[5]) + " | " + str(employee[6]))
         menu_line()
 
+    menu_line()
+    print("|          Press Enter to return to the main menu.         |")
+    menu_line()
+    input()
+
 
 # --------------------------------------------------------------------------------------------------------
 def does_employee_exist(emp_disc_number):
