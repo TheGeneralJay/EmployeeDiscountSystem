@@ -1,3 +1,4 @@
+# Lab Professor: Maziar Sojoudian
 # Placeholder data so the program does not feel empty upon first use.
 employee_list = [
     [1, "Amanda Gurney", "hourly", 5, 0, 0, 1],
@@ -33,20 +34,20 @@ def show_menu():
         print("|                   (4) All Employee Summary               |")
         print("|                   (5) Exit                               |")
         menu_line()
-        user_option = int(input("Enter a menu option: "))
+        user_option = input("Enter a menu option: ")
         menu_line()
 
         # User choice logic.
         match user_option:
-            case 1:  # Create Employee
+            case "1":  # Create Employee
                 create_employee()
-            case 2:  # Create Item
+            case "2":  # Create Item
                 create_item()
-            case 3:  # Make Purchase
+            case "3":  # Make Purchase
                 make_purchase()
-            case 4:  # All Employee Summary
+            case "4":  # All Employee Summary
                 all_employee_summary()
-            case 5:  # Exit
+            case "5":  # Exit
                 print("|   Thank you for using Your GBC Employee Discount Tool!   |")
                 print("|                  Have a fantastic day!                   |")
                 menu_line()
@@ -62,6 +63,7 @@ def create_employee():
     # Loop for adding new employee if user wants to repeat the process.
     is_valid = False
     while not is_valid:
+        menu_line()
         print("|                      CREATE EMPLOYEE                     |")
         menu_line()
         print("|  Please enter the employee's information when prompted.  |")
@@ -198,6 +200,9 @@ def validate_input(user_input, validation_type):
                     case "discount":
                         print("Please enter a valid discount number.")
                         return False
+                    case "year":
+                        print("Please enter a valid number for years worked.")
+                        return False
                     case _:
                         print("Please enter a valid number.")
             else:  # If user input is a number...
@@ -272,6 +277,7 @@ def create_item():
     # Loop for adding new employee if user wants to repeat the process.
     is_valid = False
     while not is_valid:
+        menu_line()
         print("|                       CREATE ITEM                        |")
         menu_line()
         print("|    Please enter the item's information when prompted.    |")
@@ -316,6 +322,7 @@ def create_item():
             user_input = input("Is this information correct?: ")
 
             if user_input == "1":
+                is_valid_input = True
                 item = item_list.append(
                     [int(item_number), item_name, int(item_cost)]
                 )
@@ -359,7 +366,6 @@ def create_item():
                 print("|          Press Enter to return to the main menu.         |")
                 menu_line()
                 input()
-
                 is_valid_input = True
                 is_valid = True
             else:
